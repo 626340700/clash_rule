@@ -10,7 +10,7 @@ DOMAIN-SUFFIX,ipv6.msftconnecttest.com
 DOMAIN-SUFFIX,duckdns.org
 DOMAIN-SUFFIX,euchips.com
 DOMAIN-SUFFIX,ddnsfree.com
-DOMAIN-SUFFIX,dynu.com
+#DOMAIN-SUFFIX,dynu.com
 
 # 域名关键字匹配
 #DOMAIN-KEYWORD,mirror
