@@ -5,7 +5,7 @@ DOMAIN-SUFFIX,qichiyu.com
 DOMAIN-SUFFIX,llgjc1.com
 DOMAIN-SUFFIX,xftld.org
 DOMAIN-SUFFIX,ahhhhfs.com
-DOMAIN-SUFFIX,bebingocard.com
+#DOMAIN-SUFFIX,bebingocard.com
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
