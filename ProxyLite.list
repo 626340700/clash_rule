@@ -18,7 +18,9 @@ DOMAIN-SUFFIX,naiyous.com
 DOMAIN-SUFFIX,services.googleapis.cn
 DOMAIN-SUFFIX,googleapis.cn
 DOMAIN-SUFFIX,xn--ngstr-lra8j.com
-DOMAIN-SUFFIX,bencent.com.cn      ##压敏电阻网站服务器IP是香港
+
+##压敏电阻网站服务器IP是香港
+DOMAIN-SUFFIX,bencent.com.cn
 
 
 # 域名关键字匹配
