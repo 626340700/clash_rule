@@ -22,6 +22,9 @@ DOMAIN-SUFFIX,xn--ngstr-lra8j.com
 ##压敏电阻网站服务器IP是香港
 DOMAIN-SUFFIX,bencent.com.cn
 
+##armbian
+DOMAIN-SUFFIX,armbian.com
+
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
