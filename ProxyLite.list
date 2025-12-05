@@ -25,6 +25,9 @@ DOMAIN-SUFFIX,bencent.com.cn
 ##armbian
 DOMAIN-SUFFIX,armbian.com
 
+##openwrt
+DOMAIN-SUFFIX,openwrt.org
+
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
