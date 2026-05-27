@@ -20,6 +20,10 @@ DOMAIN-SUFFIX,ipw.cn
 DOMAIN-SUFFIX,3322.net
 DOMAIN-SUFFIX,js.629957.xyz
 
+# 英伟达大模型API
+DOMAIN,integrate.api.nvidia.com
+DOMAIN-SUFFIX,api.nvidia.com
+
 # 域名关键字匹配
 #DOMAIN-KEYWORD,mirror
 #DOMAIN-KEYWORD,ghp
