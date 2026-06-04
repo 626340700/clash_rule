@@ -2,22 +2,16 @@
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
-#DOMAIN-SUFFIX,llgjc1.com
 DOMAIN-SUFFIX,xftld.org
 DOMAIN-SUFFIX,ahhhhfs.com
 DOMAIN-SUFFIX,bebingocard.com
 DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,v2rayssr.com
-#DOMAIN-SUFFIX,ssllabs.com
-#DOMAIN-SUFFIX,hostuno.com
-#DOMAIN-SUFFIX,onlyfans.com
-#DOMAIN-SUFFIX,7pzzv.us
 DOMAIN-SUFFIX,adspower.net
 DOMAIN-SUFFIX,naiyous.com
-#DOMAIN-SUFFIX,imnks.com
-DOMAIN-SUFFIX,services.googleapis.cn
-DOMAIN-SUFFIX,googleapis.cn
-DOMAIN-SUFFIX,xn--ngstr-lra8j.com
+DOMAIN-SUFFIX,hermes.626340700.xyz
+
+
 
 ##压敏电阻网站服务器IP是香港
 DOMAIN-SUFFIX,bencent.com.cn
@@ -30,7 +24,6 @@ DOMAIN-SUFFIX,openwrt.org
 
 
 # 域名关键字匹配
-DOMAIN-KEYWORD,1e100
 DOMAIN-KEYWORD,bebingocard
 DOMAIN-KEYWORD,ip2location
-DOMAIN-KEYWORD,nikkinikki
+DOMAIN-KEYWORD,hermes.626340700.xyz
