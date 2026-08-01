@@ -20,7 +20,7 @@ DOMAIN-SUFFIX,666666.host
 DOMAIN-SUFFIX,ipw.cn
 DOMAIN-SUFFIX,3322.net
 DOMAIN-SUFFIX,js.629957.xyz
-DOMAIN-SUFFIX,opencode.ai
+#DOMAIN-SUFFIX,opencode.ai
 
 # 英伟达大模型API
 DOMAIN,integrate.api.nvidia.com
