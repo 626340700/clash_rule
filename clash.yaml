@@ -3,34 +3,23 @@
 # 机场订阅
 
 # 全局配置 
-port: 7890
-socks-port: 7891
-redir-port: 7892
-mixed-port: 7893
-tproxy-port: 7894
+mixed-port: 7890
 allow-lan: true
 bind-address: "*"
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
-log-level: warning
-mode: rule
-find-process-mode: 'off' #always/strict
-# interface-name: en0
-# global-client-fingerprint: chrome
+log-level: info
 keep-alive-idle: 600
 keep-alive-interval: 15
-disable-keep-alive: false
 profile:
   store-selected: true
   store-fake-ip: true
 
-# 控制面板
-# external-controller: 0.0.0.0:9090
-# secret: "123456"  #控制面板密码
-# external-ui: "/etc/mihomo/run/ui"
-# external-ui-name: zashboard
-# external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+external-controller: 0.0.0.0:9090
+secret: ""
+external-ui: ui
+external-ui-url: "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
 
 # 嗅探
 sniffer:
@@ -63,7 +52,7 @@ sniffer:
 tun:
   enable: true
   # system/gvisor/mixed
-  stack: mixed
+  stack: mixed   ##如果内核版本大于v1.19.31，此处可以改为自研协议栈 mips ，理论上性能更好。
   dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
@@ -74,13 +63,16 @@ tun:
 # DNS模块
 dns:
   enable: true
-  listen: 0.0.0.0:1053
+  cache-algorithm: arc
   ipv6: false
-  respect-rules: true
   enhanced-mode: fake-ip
-  fake-ip-range: 198.18.0.1/16
+  fake-ip-range: 198.18.0.0/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
+      - "*"
+    - "+.lan"
+    - "+.local"
+    - "+.market.xiaomi.com"
     - "rule-set:private_domain,cn_domain"
     - "+.services.googleapis.cn"
     - "+.xn--ngstr-lra8j.com"
@@ -90,8 +82,6 @@ dns:
     - "+.ntp1.aliyun.com"
     - "+.ntp.ntsc.ac.cn"
     - "+.cn.ntp.org.cn"
-    - "+.duckdns.org"
-    - "+.ddnsfree.com"
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29    
