@@ -39,7 +39,7 @@ DOMAIN-SUFFIX,cloudflareinsights.com
 DOMAIN-SUFFIX,siftscience.com
 DOMAIN,anthropic-com.ghost.io
 
-# Anthropic帮助中心确认的Yoti年龄验证，个人在线规则尚未收录
+# Anthropic 年龄验证服务 Yoti
 DOMAIN-SUFFIX,yoti.com  
 
 # Broad guardrail: unknown Claude / Anthropic labeled domains
