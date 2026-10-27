@@ -42,6 +42,10 @@ DOMAIN,anthropic-com.ghost.io
 # Anthropic 年龄验证服务 Yoti
 DOMAIN-SUFFIX,yoti.com  
 
+#cloudflare测试网站
+DOMAIN,cf.999831.xyz
+DOMAIN,ip.net.coffee
+
 # Broad guardrail: unknown Claude / Anthropic labeled domains
 DOMAIN-KEYWORD,claude
 DOMAIN-KEYWORD,anthropic
