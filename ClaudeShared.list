@@ -1,0 +1,16 @@
+# ClaudeShared.list — OPTIONAL; broad shared sites may consume 60-connection ISP quota.
+# Only enable this as a separate RULE-SET for the aggressive profile.
+
+DOMAIN,storage.googleapis.com
+DOMAIN,registry.npmjs.org
+DOMAIN-SUFFIX,github.com
+DOMAIN,raw.githubusercontent.com
+DOMAIN,fonts.googleapis.com
+DOMAIN,fonts.gstatic.com
+DOMAIN,cdnjs.cloudflare.com
+DOMAIN,cdn.jsdelivr.net
+DOMAIN,cdn.tailwindcss.com
+DOMAIN,code.jquery.com
+DOMAIN,unpkg.com
+DOMAIN,formulae.brew.sh
+DOMAIN,idliststorage.blob.core.windows.net
