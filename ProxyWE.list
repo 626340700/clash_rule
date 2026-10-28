@@ -28,6 +28,10 @@ DOMAIN-SUFFIX,armbian.com
 ##openwrt
 DOMAIN-SUFFIX,openwrt.org
 
+##自己网站
+DOMAIN-SUFFIX,us.626340700.xyz
+DOMAIN-SUFFIX,ts.626340700.xyz
+DOMAIN-SUFFIX,rn.626340700.xyz
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,bebingocard
