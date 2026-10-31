@@ -1,0 +1,298 @@
+# Mihomo 共用配置｜Sub-Store 覆写 / 直接导入 Mihomo
+# ================================================================
+# 【模式 A：Sub-Store（默认）】
+#   1. 保持下方 proxy-providers 和 proxies 两部分全部注释。
+#   2. 在 Sub-Store 的「mihomo 配置文件」中选择已有订阅/组合订阅作来源，再使用本文件覆写。
+#   3. Sub-Store 提供节点；本模板只负责 DNS / 分组 / 规则等配置。
+#
+# 【模式 B：独立 Mihomo / Nikki / OpenClash 配置】
+#   1. 取消注释「proxy-providers:」和需要启用的订阅块，填入真实 URL。
+#   2. 如果要添加手动节点，再取消注释「proxies:」，在其下填写真实节点。
+#   3. 可以只使用订阅，也可以只使用手动节点，或者两者一起使用。
+#   4. include-all: true 的节点组会自动收集所有代理和代理集合，不用改分流规则。
+#
+# 注意：proxy-providers 中的 proxy: DIRECT 只表示“订阅更新直连下载”。
+#       DIRECT 是 Mihomo 内置直连；无需创建额外的“直连”节点。
+#       “🎯 直连”是原有分流策略组，保留名称及原来的规则引用。
+#       无需添加 {name: 直连, type: direct}，由 Mihomo 内置 DIRECT 负责直连。
+#       需要添加 VLESS / TUIC 等真实手动节点时，使用下面的注释范例。
+# ================================================================
+
+# 订阅提供者：Sub-Store 覆写时保持注释；独立 Mihomo 模式才取消注释。
+# 重要：只取消注释实际要用的订阅块；未配置订阅 URL 的块继续保持注释。
+#proxy-providers:
+#  tisu:
+#    url: ""   # 启用前填写真实订阅地址
+#    type: http
+#    interval: 86400
+#    health-check:
+#      enable: true
+#      url: https://cp.cloudflare.com/generate_204
+#      interval: 300
+#    proxy: DIRECT
+
+#  oracle US:
+#    url: ""   # 启用前填写真实订阅地址
+#    type: http
+#    interval: 86400
+#    health-check:
+#      enable: true
+#      url: https://cp.cloudflare.com/generate_204
+#      interval: 300
+#    proxy: DIRECT
+
+#  RackNerd US:
+#    url: ""   # 启用前填写真实订阅地址
+#    type: http
+#    interval: 86400
+#    health-check:
+#      enable: true
+#      url: https://cp.cloudflare.com/generate_204
+#      interval: 300
+#    proxy: DIRECT
+
+# 节点信息（只使用单行写法；默认注释，避免在 Sub-Store 中覆盖订阅节点）
+# 独立 Mihomo 需要手动添加节点时：取消 proxies: 以及实际节点行前的 #。
+# 手动节点写在下面空行处：每个节点占一行，前面 2 个空格再写 - {name: ...}。
+#proxies:
+
+#  - {name: "手动VLESS示例", type: vless, server: example.com, port: 443, uuid: "00000000-0000-0000-0000-000000000000", tls: true, servername: example.com}
+#  - {name: "手动Trojan示例", type: trojan, server: example.com, port: 443, password: "replace-with-real-password", sni: example.com}
+
+# 提醒：按照上面格式继续添加节点；仅取消实际使用节点的注释，并替换为真实参数。
+
+# 全局配置 
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7894
+allow-lan: true
+bind-address: "*"
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+log-level: warning
+mode: rule
+find-process-mode: 'off' #always/strict
+# interface-name: en0
+# global-client-fingerprint: chrome
+keep-alive-idle: 600
+keep-alive-interval: 15
+disable-keep-alive: false
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+# 控制面板
+# external-controller: 0.0.0.0:9090
+# secret: "123456"  #控制面板密码
+# external-ui: "/etc/mihomo/run/ui"
+# external-ui-name: zashboard
+# external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+
+# 嗅探
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - "+.v2ex.com"
+  skip-domain:
+    - "rule-set:private_domain,cn_domain"
+    - "dlg.io.mi.com"
+    - "+.apple.com"
+    - "+.wechat.com"
+    - "+.wechatapp.com"
+    - "+.qpic.cn"
+    - "+.qq.com"
+    - "+.vivox.com"
+    - "+.oray.com"
+    - "+.sunlogin.net"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"   
+
+# 入站  
+tun:
+  enable: true
+  # system/gvisor/mixed
+  stack: mixed
+  dns-hijack: ["any:53", "tcp://any:53"]
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  route-exclude-address-set:
+    - "cn_ip"
+
+# DNS模块
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - "rule-set:private_domain,cn_domain"
+    - "+.services.googleapis.cn"
+    - "+.xn--ngstr-lra8j.com"
+    - "time.*.com"
+    - "+.pool.ntp.org"
+    - "+.ntp.tencent.com"
+    - "+.ntp1.aliyun.com"
+    - "+.ntp.ntsc.ac.cn"
+    - "+.cn.ntp.org.cn"
+    - "+.duckdns.org"
+    - "+.ddnsfree.com"
+  # 引导 DNS：用于解析 doh.pub、doh.360.cn 等 DNS 服务器的域名
+  default-nameserver:
+    - 218.4.4.4       # 江苏电信
+    - 119.29.29.29    # 腾讯 DNSPod
+
+  # 节点域名 DNS：解析 ts.626340700.xyz 等节点地址
+  proxy-server-nameserver:
+    - "https://doh.pub/dns-query#DIRECT"
+    - "https://doh.360.cn/dns-query#DIRECT"
+
+  # 普通域名按规则选择 DNS
+  nameserver-policy:
+    "+.googleapis.cn":
+      - "https://1.1.1.1/dns-query#🚀 默认代理"
+      - "https://8.8.8.8/dns-query#🚀 默认代理"
+
+    "rule-set:cn_domain":
+      - "218.4.4.4#DIRECT"       # 江苏电信
+      - "119.29.29.29#DIRECT"    # 腾讯 DNSPod
+
+  nameserver:
+    - "https://1.1.1.1/dns-query#🚀 默认代理"
+    - "https://8.8.8.8/dns-query#🚀 默认代理"
+ 
+# 出站策略
+# 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
+# [🚀 默认代理, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, TW 台湾节点, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, ✴️ claude, 🔗 中转节点, 🌐 全部节点, DIRECT]
+pr: &pr {type: select, proxies: [🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, 🔗 中转节点, 🌐 全部节点, DIRECT]}
+proxy-groups:
+  - {name: 🚀 默认代理, type: select, proxies: [⚡ CN2, 🇺🇲 美国节点, 🏠 ISP住宅, 🔗 中转节点, 🌐 全部节点, DIRECT]}
+#  - {name: 💻 OpenCode, <<: *pr}
+  - {name: 📹 YouTube, <<: *pr}
+  - {name: 🍀 Google, <<: *pr}
+  - {name: "✴️ Claude", type: select, proxies: [🏠 ISP住宅, 🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🔗 中转节点, 🌐 全部节点, DIRECT]}
+  - {name: 🤖 ChatGPT, type: select, proxies: [🏠 ISP住宅, 🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🔗 中转节点, 🌐 全部节点, DIRECT]}
+  - {name: 🧠 AI, type: select, proxies: [🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, 🔗 中转节点, 🌐 全部节点, DIRECT]}
+  - {name: 🅾️ Oracle, type: select, proxies: [🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, 🔗 中转节点, 🌐 全部节点, DIRECT]}
+  - {name: 👨🏿‍💻 GitHub, <<: *pr}
+#  - {name: 🐬 OneDrive, <<: *pr}
+  - {name: 🪟 Microsoft, type: select, proxies: [DIRECT, 🚀 默认代理]}
+#  - {name: 🎵 TikTok, <<: *pr}
+  - {name: 📲 Telegram, <<: *pr}
+  - {name: 🟢 WhatsApp, <<: *pr}
+#  - {name: 🎥 NETFLIX, <<: *pr}
+#  - {name: ✈️ Speedtest, <<: *pr}
+#  - {name: 💶 PayPal, <<: *pr}
+  - {name: 🍎 Apple, type: select, proxies: [DIRECT, 🚀 默认代理]}
+  - {name: 🎯 直连, type: select, proxies: [DIRECT]}
+  - {name: 🐟 漏网之鱼, <<: *pr}
+#  - {name: 🇭🇰 香港节点, type: select, include-all: true, filter: "(?i)港|hk|hongkong|hong kong", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
+#  - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?i)日|jp|japan", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
+#  - {name: 🇸🇬 狮城节点, type: select, include-all: true, filter: "(?i)新加坡|坡|狮城|SG|Singapore", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
+#  - {name: TW 台湾节点, type: select, include-all: true, filter: "(?i)台|台湾|台北|新北|彰化|TW|Taiwan", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
+  #- {name: 🇰🇷 韩国节点, type: select, include-all: true, filter: "(?i)KR|Korea|KOR|首尔|韩|韓", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
+  - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
+  # 只匹配原配置的两个 CN2 节点，不包含 ISP、住宅或中转节点。
+  - {name: ⚡ CN2, type: select, include-all: true, filter: "^US_CN2_(VLESS|TUIC)$"}
+  - {name: 🏠 ISP住宅, type: select, include-all: true, filter: "(?i)ISP|住宅|家宽|RESIP|美国 *AT", exclude-filter: "(?i)中转|relay"}
+  - {name: 🔗 中转节点, type: select, include-all: true, filter: "(?i)中转|relay"}
+  - {name: 🌐 全部节点, type: select, include-all: true}
+
+# 规则匹配
+# 优先保护 Claude 本体、身份核验、支付与已知监控；普通共享依赖不单独强制路由。
+# 第三方共享域名被其他网站使用时也可能命中 ISP（如 Stripe、Statsig、Sentry）。
+rules:
+  # 以下四套 Claude 规则统一进入“✴️ Claude”，再由其选择 ISP 或其他代理组
+  - RULE-SET,anthropic_official,✴️ Claude
+  - RULE-SET,claude_community,✴️ Claude
+  - RULE-SET,stripe_services,✴️ Claude
+  - RULE-SET,claude_extra,✴️ Claude
+  # ClaudeExtra.list 自带 DOMAIN-KEYWORD,claude / anthropic，无须重复写在本 YAML
+
+  # ChatGPT 和其他 AI 保持独立手选策略组
+#  - DOMAIN-SUFFIX,opencode.ai,💻 OpenCode
+  - RULE-SET,openai,🤖 ChatGPT
+  - RULE-SET,ai,🧠 AI
+
+  # 原有常规分流；GitHub 仍由原 GitHub 策略组处理（其首选是默认代理）
+  - RULE-SET,proxyWE,🚀 默认代理
+  - RULE-SET,Directlite,DIRECT
+  - RULE-SET,private_domain,DIRECT
+  - RULE-SET,apple,🍎 Apple
+  - RULE-SET,proxylite,🚀 默认代理
+  - RULE-SET,github,👨🏿‍💻 GitHub
+  - RULE-SET,youtube,📹 YouTube
+  - RULE-SET,google,🍀 Google
+  - RULE-SET,oracle,🅾️ Oracle
+  #- RULE-SET,onedrive,🐬 OneDrive
+  - RULE-SET,microsoft,🪟 Microsoft
+  #- RULE-SET,tiktok,🎵 TikTok
+  #- RULE-SET,speedtest_domain,✈️ Speedtest
+  - RULE-SET,telegram,📲 Telegram
+  - RULE-SET,whatsapp,🟢 WhatsApp
+  #- RULE-SET,netflix_domain,🎥 NETFLIX
+  #- RULE-SET,paypal_domain,💶 PayPal
+  - RULE-SET,gfw,🚀 默认代理
+  - RULE-SET,geolocation-!cn,🚀 默认代理
+  - RULE-SET,cn_domain,🎯 直连
+  - RULE-SET,google_ip,🍀 Google,no-resolve
+  #- RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
+  - RULE-SET,telegram_ip,📲 Telegram,no-resolve
+  - RULE-SET,cn_ip,🎯 直连,no-resolve
+  - MATCH,🐟 漏网之鱼
+
+# 规则集
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: text}
+rule-providers:
+  # 上游主源：MetaCubeX；每天检查更新
+  anthropic_official: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}
+  stripe_services: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/stripe.mrs"}
+  # 社区 YAML，覆盖锚点原本的 MRS 格式
+  claude_community: {<<: *domain, format: yaml, url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}
+  # 用户自己 GitHub 上的 classical/text 补充规则，包含 Claude/Anthropic 关键词兜底
+  claude_extra: {<<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/ClaudeExtra.list"}
+  # claude_shared 未启用；通用下载和 CDN 保持原有分流规则
+  private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  proxyWE: { <<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/ProxyWE.list"}  
+  proxylite: { <<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/ProxyLite.list"}
+  Directlite: { <<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/DirectLite.list"}
+  openai: {  <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs" }
+  ai: {  <<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs" }
+  youtube: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
+  google: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  oracle: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/oracle.mrs"}
+  github: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
+  telegram: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
+  whatsapp: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/whatsapp.mrs" }
+  #netflix_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}
+  #paypal_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
+  #onedrive: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
+  microsoft: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  apple: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}
+  #speedtest_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}
+  #tiktok: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
+  gfw: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
+  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
+  
+  cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+  google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
+  telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
+  #netflix_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}
