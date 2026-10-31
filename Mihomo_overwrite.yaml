@@ -130,7 +130,7 @@ tun:
   route-exclude-address-set:
     - "cn_ip"
 
-# DNS模块
+# DNS模块：保持 Fake-IP、中国域名绕过；Sub-Store 两个域名获取真实 IP。
 dns:
   enable: true
   listen: 0.0.0.0:1053
@@ -140,11 +140,11 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - "+.cn"                          # .cn 域名无需等待 cn_domain 规则下载
+    - "+.cn"
     - "rule-set:private_domain"
-    - "rule-set:cn_domain"           # 其他中国域名由此规则集覆盖
-    - "sub.rn.626340700.xyz"        # Sub-Store 不使用 Fake-IP
-    #- "sub.sh.626340700.xyz"
+    - "rule-set:cn_domain"
+    - "sub.rn.626340700.xyz"
+    - "sub.sh.626340700.xyz"
     - "+.services.googleapis.cn"
     - "+.xn--ngstr-lra8j.com"
     - "time.*.com"
@@ -155,34 +155,31 @@ dns:
     - "+.cn.ntp.org.cn"
     - "+.duckdns.org"
     - "+.ddnsfree.com"
-  # 引导 DNS：用于解析 doh.pub、doh.360.cn 等 DNS 服务器的域名
+
+  # 引导 DNS：用于解析带域名的 DNS 上游服务器地址
   default-nameserver:
-    - 218.4.4.4       # 江苏电信
-    - 119.29.29.29    # 腾讯 DNSPod
+    - 218.4.4.4
+    - 119.29.29.29
 
-  # 节点域名 DNS：解析 ts.626340700.xyz 等节点地址
+  # 节点服务器域名解析：避免依赖尚未建立的代理节点
   proxy-server-nameserver:
-    - "https://doh.pub/dns-query#DIRECT"
-    - "https://doh.360.cn/dns-query#DIRECT"
+    - "218.4.4.4#DIRECT"
+    - "119.29.29.29#DIRECT"
 
-  # 普通域名按规则选择 DNS
+  # 国内域名国内解析；googleapis.cn 用国外 DoH，经过默认代理
   nameserver-policy:
-    # Sub-Store 即使没有代理节点，也尝试直连 DNS 解析
-    #"sub.rn.626340700.xyz":
-    #  - "119.29.29.29#DIRECT"
-
     "+.googleapis.cn":
       - "https://1.1.1.1/dns-query#🚀 默认代理"
       - "https://8.8.8.8/dns-query#🚀 默认代理"
 
     "rule-set:cn_domain":
-      - "218.4.4.4#DIRECT"       # 江苏电信
-      - "119.29.29.29#DIRECT"    # 腾讯 DNSPod
+      - "218.4.4.4#DIRECT"
+      - "119.29.29.29#DIRECT"
 
+  # 其他未命中 policy 的 DNS 查询，通过默认代理使用国外 DoH
   nameserver:
     - "https://1.1.1.1/dns-query#🚀 默认代理"
     - "https://8.8.8.8/dns-query#🚀 默认代理"
- 
 # 出站策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
 # [🚀 默认代理, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, TW 台湾节点, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, ✴️ claude, 🔗 中转节点, 🌐 全部节点, DIRECT]
