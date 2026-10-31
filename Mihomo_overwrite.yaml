@@ -140,7 +140,10 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - "rule-set:private_domain,cn_domain"
+    - "+.cn"                          # .cn 域名无需等待 cn_domain 规则下载
+    - "rule-set:private_domain"
+    - "rule-set:cn_domain"           # 其他中国域名由此规则集覆盖
+    - "sub.rn.626340700.xyz"        # Sub-Store 不使用 Fake-IP
     - "+.services.googleapis.cn"
     - "+.xn--ngstr-lra8j.com"
     - "time.*.com"
@@ -163,6 +166,10 @@ dns:
 
   # 普通域名按规则选择 DNS
   nameserver-policy:
+    # Sub-Store 即使没有代理节点，也尝试直连 DNS 解析
+    "sub.rn.626340700.xyz":
+      - "119.29.29.29#DIRECT"
+
     "+.googleapis.cn":
       - "https://1.1.1.1/dns-query#🚀 默认代理"
       - "https://8.8.8.8/dns-query#🚀 默认代理"
@@ -216,6 +223,8 @@ proxy-groups:
 # 优先保护 Claude 本体、身份核验、支付与已知监控；普通共享依赖不单独强制路由。
 # 第三方共享域名被其他网站使用时也可能命中 ISP（如 Stripe、Statsig、Sentry）。
 rules:
+  # Sub-Store 管理/下载域名优先直连，不依赖代理节点
+  - DOMAIN,sub.rn.626340700.xyz,DIRECT
   # 以下四套 Claude 规则统一进入“✴️ Claude”，再由其选择 ISP 或其他代理组
   - RULE-SET,anthropic_official,✴️ Claude
   - RULE-SET,claude_community,✴️ Claude
