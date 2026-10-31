@@ -144,7 +144,7 @@ dns:
     - "rule-set:private_domain"
     - "rule-set:cn_domain"           # 其他中国域名由此规则集覆盖
     - "sub.rn.626340700.xyz"        # Sub-Store 不使用 Fake-IP
-    - "sub.sh.626340700.xyz"
+    #- "sub.sh.626340700.xyz"
     - "+.services.googleapis.cn"
     - "+.xn--ngstr-lra8j.com"
     - "time.*.com"
@@ -168,8 +168,8 @@ dns:
   # 普通域名按规则选择 DNS
   nameserver-policy:
     # Sub-Store 即使没有代理节点，也尝试直连 DNS 解析
-    #"sub.rn.626340700.xyz":
-    #  - "119.29.29.29#DIRECT"
+    "sub.rn.626340700.xyz":
+      - "119.29.29.29#DIRECT"
 
     "+.googleapis.cn":
       - "https://1.1.1.1/dns-query#🚀 默认代理"
