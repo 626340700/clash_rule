@@ -189,8 +189,6 @@ proxy-groups:
 #  - {name: 💻 OpenCode, <<: *pr}
   - {name: 📹 YouTube, <<: *pr}
   - {name: 🍀 Google, <<: *pr}
-  # Google Play 与默认代理使用相同选项，默认选择 CN2。
-  - {name: GooglePlay, type: select, proxies: [⚡ CN2, 🇺🇲 美国节点, 🏠 ISP住宅, 🔗 中转节点, 🌐 全部节点, DIRECT], default-selected: ⚡ CN2}
   - {name: "✴️ Claude", type: select, proxies: [🏠 ISP住宅, 🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🔗 中转节点, 🌐 全部节点, DIRECT]}
   - {name: 🤖 ChatGPT, type: select, proxies: [🏠 ISP住宅, 🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🔗 中转节点, 🌐 全部节点, DIRECT]}
   - {name: 🧠 AI, type: select, proxies: [🚀 默认代理, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, 🔗 中转节点, 🌐 全部节点, DIRECT]}
@@ -223,9 +221,6 @@ proxy-groups:
 # 优先保护 Claude 本体、身份核验、支付与已知监控；普通共享依赖不单独强制路由。
 # 第三方共享域名被其他网站使用时也可能命中 ISP（如 Stripe、Statsig、Sentry）。
 rules:
-  # Google Play 下载入口和 CDN 独立分流。
-  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,GooglePlay
-  - DOMAIN,services.googleapis.cn,GooglePlay
   # Sub-Store 管理/下载域名优先直连，不依赖代理节点
   - DOMAIN,sub.rn.626340700.xyz,DIRECT
   # 以下四套 Claude 规则统一进入“✴️ Claude”，再由其选择 ISP 或其他代理组
@@ -234,6 +229,9 @@ rules:
   - RULE-SET,stripe_services,✴️ Claude
   - RULE-SET,claude_extra,✴️ Claude
   # ClaudeExtra.list 自带 DOMAIN-KEYWORD,claude / anthropic，无须重复写在本 YAML
+  # Google Play 下载入口和 CDN 使用现有 Google 策略组。
+  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,🍀 Google
+  - DOMAIN,services.googleapis.cn,🍀 Google
 
   # ChatGPT 和其他 AI 保持独立手选策略组
 #  - DOMAIN-SUFFIX,opencode.ai,💻 OpenCode
