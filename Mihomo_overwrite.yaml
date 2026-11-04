@@ -230,8 +230,8 @@ rules:
   - RULE-SET,claude_extra,✴️ Claude
   # ClaudeExtra.list 自带 DOMAIN-KEYWORD,claude / anthropic，无须重复写在本 YAML
   # Google Play 下载入口和 CDN 使用现有 Google 策略组。
-  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,🍀 Google
-  - DOMAIN,services.googleapis.cn,🍀 Google
+  #- DOMAIN-SUFFIX,xn--ngstr-lra8j.com,🍀 Google
+  #- DOMAIN,services.googleapis.cn,🍀 Google
 
   # ChatGPT 和其他 AI 保持独立手选策略组
 #  - DOMAIN-SUFFIX,opencode.ai,💻 OpenCode
