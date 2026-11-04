@@ -10,7 +10,7 @@ DOMAIN-SUFFIX,withpersona.com
 DOMAIN-SUFFIX,hcaptcha.com
 DOMAIN-SUFFIX,hcaptcha.net
 DOMAIN,anthropic.auth0.com
-DOMAIN,accounts.google.com
+#DOMAIN,accounts.google.com
 
 # Statsig feature flags, experiments and SDK endpoints
 DOMAIN-SUFFIX,statsig.com
