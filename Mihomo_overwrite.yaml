@@ -212,7 +212,7 @@ proxy-groups:
   #- {name: 🇰🇷 韩国节点, type: select, include-all: true, filter: "(?i)KR|Korea|KOR|首尔|韩|韓", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
   - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states", exclude-filter: "(?i)中转|relay|ISP|住宅|家宽|RESIP|美国 *AT"}
   # 只匹配原配置的两个 CN2 节点，不包含 ISP、住宅或中转节点。
-  - {name: ⚡ CN2, type: select, include-all: true, filter: "^US_CN2_(VLESS|TUIC)$"}
+  - {name: ⚡ CN2, type: select, include-all: true, filter: "^US_CN2_(VLESS|AnyTLS|TUIC)$"}
   - {name: 🏠 ISP住宅, type: select, include-all: true, filter: "(?i)ISP|住宅|家宽|RESIP|美国 *AT", exclude-filter: "(?i)中转|relay"}
   - {name: 🔗 中转节点, type: select, include-all: true, filter: "(?i)中转|relay"}
   - {name: 🌐 全部节点, type: select, include-all: true}
