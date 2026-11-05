@@ -176,16 +176,16 @@ proxy-groups:
 #  - {name: 💻 OpenCode, <<: *pr}
   - {name: 📹 YouTube, <<: *pr}
   - {name: 🍀 Google, <<: *pr}
-  - {name: "✴️ Claude", <<: *pr}
+  #- {name: "✴️ Claude", <<: *pr}
   - {name: 🤖 ChatGPT, <<: *pr}
   - {name: 🧠 AI, <<: *pr}
-  - {name: 🅾️ Oracle, <<: *pr}
+  #- {name: 🅾️ Oracle, <<: *pr}
   - {name: 👨🏿‍💻 GitHub, <<: *pr}
 #  - {name: 🐬 OneDrive, <<: *pr}
   - {name: 🪟 Microsoft, type: select, proxies: [DIRECT, 🚀 默认代理]}
 #  - {name: 🎵 TikTok, <<: *pr}
-  - {name: 📲 Telegram, <<: *pr}
-  - {name: 🟢 WhatsApp, <<: *pr}
+  #- {name: 📲 Telegram, <<: *pr}
+  #- {name: 🟢 WhatsApp, <<: *pr}
 #  - {name: 🎥 NETFLIX, <<: *pr}
 #  - {name: ✈️ Speedtest, <<: *pr}
 #  - {name: 💶 PayPal, <<: *pr}
@@ -211,10 +211,10 @@ rules:
   # Sub-Store 管理/下载域名优先直连，不依赖代理节点
   - DOMAIN,sub.rn.626340700.xyz,DIRECT
   # 以下四套 Claude 规则统一进入“✴️ Claude”，再由其选择 ISP 或其他代理组
-  - RULE-SET,anthropic_official,✴️ Claude
-  - RULE-SET,claude_community,✴️ Claude
-  - RULE-SET,stripe_services,✴️ Claude
-  - RULE-SET,claude_extra,✴️ Claude
+  #- RULE-SET,anthropic_official,✴️ Claude
+  #- RULE-SET,claude_community,✴️ Claude
+  #- RULE-SET,stripe_services,✴️ Claude
+  #- RULE-SET,claude_extra,✴️ Claude
   # ClaudeExtra.list 自带 DOMAIN-KEYWORD,claude / anthropic，无须重复写在本 YAML
   # Google Play 下载入口和 CDN 使用现有 Google 策略组。
   #- DOMAIN-SUFFIX,xn--ngstr-lra8j.com,🍀 Google
@@ -234,13 +234,13 @@ rules:
   - RULE-SET,github,👨🏿‍💻 GitHub
   - RULE-SET,youtube,📹 YouTube
   - RULE-SET,google,🍀 Google
-  - RULE-SET,oracle,🅾️ Oracle
+  #- RULE-SET,oracle,🅾️ Oracle
   #- RULE-SET,onedrive,🐬 OneDrive
   - RULE-SET,microsoft,🪟 Microsoft
   #- RULE-SET,tiktok,🎵 TikTok
   #- RULE-SET,speedtest_domain,✈️ Speedtest
-  - RULE-SET,telegram,📲 Telegram
-  - RULE-SET,whatsapp,🟢 WhatsApp
+  #- RULE-SET,telegram,📲 Telegram
+  #- RULE-SET,whatsapp,🟢 WhatsApp
   #- RULE-SET,netflix_domain,🎥 NETFLIX
   #- RULE-SET,paypal_domain,💶 PayPal
   - RULE-SET,gfw,🚀 默认代理
