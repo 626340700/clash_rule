@@ -259,12 +259,12 @@ rule-anchor:
   class: &class {type: http, interval: 86400, behavior: classical, format: text}
 rule-providers:
   # 上游主源：MetaCubeX；每天检查更新
-  anthropic_official: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}
-  stripe_services: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/stripe.mrs"}
+  #anthropic_official: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}
+  #stripe_services: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/stripe.mrs"}
   # 社区 YAML，覆盖锚点原本的 MRS 格式
-  claude_community: {<<: *domain, format: yaml, url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}
+  #claude_community: {<<: *domain, format: yaml, url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}
   # 用户自己 GitHub 上的 classical/text 补充规则，包含 Claude/Anthropic 关键词兜底
-  claude_extra: {<<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/ClaudeExtra.list"}
+  #claude_extra: {<<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/ClaudeExtra.list"}
   # claude_shared 未启用；通用下载和 CDN 保持原有分流规则
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
   proxyWE: { <<: *class, url: "https://raw.githubusercontent.com/626340700/clash_rule/refs/heads/main/ProxyWE.list"}  
@@ -274,10 +274,10 @@ rule-providers:
   ai: {  <<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs" }
   youtube: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   google: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
-  oracle: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/oracle.mrs"}
+  #oracle: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/oracle.mrs"}
   github: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
-  telegram: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
-  whatsapp: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/whatsapp.mrs" }
+  #telegram: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
+  #whatsapp: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/whatsapp.mrs" }
   #netflix_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}
   #paypal_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
   #onedrive: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
