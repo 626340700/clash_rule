@@ -156,30 +156,17 @@ dns:
     - "+.duckdns.org"
     - "+.ddnsfree.com"
 
-  # 引导 DNS：用于解析带域名的 DNS 上游服务器地址
   default-nameserver:
+    - 218.4.4.4
+    - 119.29.29.29  
+  proxy-server-nameserver:
+    - 218.4.4.4
+    - 119.29.29.29
+  # namesever尽量用运营商提供的DNS
+  nameserver:
     - 218.4.4.4
     - 119.29.29.29
 
-  # 节点服务器域名解析：避免依赖尚未建立的代理节点
-  proxy-server-nameserver:
-    - "218.4.4.4#DIRECT"
-    - "119.29.29.29#DIRECT"
-
-  # 国内域名国内解析；googleapis.cn 用国外 DoH，经过默认代理
-  nameserver-policy:
-    "+.googleapis.cn":
-      - "https://1.1.1.1/dns-query#🚀 默认代理"
-      - "https://8.8.8.8/dns-query#🚀 默认代理"
-
-    "rule-set:cn_domain":
-      - "218.4.4.4#DIRECT"
-      - "119.29.29.29#DIRECT"
-
-  # 其他未命中 policy 的 DNS 查询，通过默认代理使用国外 DoH
-  nameserver:
-    - "https://1.1.1.1/dns-query#🚀 默认代理"
-    - "https://8.8.8.8/dns-query#🚀 默认代理"
 # 出站策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
 # [🚀 默认代理, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, TW 台湾节点, 🇺🇲 美国节点, ⚡ CN2, 🏠 ISP住宅, ✴️ claude, 🔗 中转节点, 🌐 全部节点, DIRECT]
