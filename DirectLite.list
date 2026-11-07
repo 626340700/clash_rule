@@ -33,6 +33,9 @@ DOMAIN-SUFFIX,fczhibo1.com
 DOMAIN,integrate.api.nvidia.com
 DOMAIN-SUFFIX,api.nvidia.com
 
+#  codex的github下载分析地址
+DOMAIN-SUFFIX,codexapp-r2.agentsmirror.com
+
 # 域名关键字匹配
 #DOMAIN-KEYWORD,mirror
 #DOMAIN-KEYWORD,ghp
